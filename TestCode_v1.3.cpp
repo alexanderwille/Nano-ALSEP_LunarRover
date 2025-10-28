@@ -2,41 +2,15 @@
 #include <string>
 #include <thread>
 
-// Function to simulate and display the motor inputs for a turn
-void simulate_turn(const std::string turn_type, int left_motor_speed, int right_motor_speed) {
-    std::this_thread::sleep_for(std::chrono::seconds(1000));
+// Global Variable and Constant Definitions
+    // Motor pin definitions
+    const int left_motor_pin_enable = 9; // PWM enable pins for left and right motors
+    const int right_motor_pin_enable = 10;
 
-    std::cout << "------------------------------------------" << std::endl;
-    std::cout << "Turn type: " << turn_type << std::endl;
-    std::cout << "Left motor input: " << left_motor_speed << std::endl;
-    std::cout << "Right motor input: " << right_motor_speed << std::endl;
-    
-    // Provide a brief explanation of the physical movement
-    if (left_motor_speed > 0 && right_motor_speed > 0) {
-        std::cout << "Result: The rover moves **forward**, with a greater speed difference causing a sharper turn." << std::endl;
-    } else if (left_motor_speed < 0 && right_motor_speed < 0) {
-        std::cout << "Result: The rover moves **backward**, with a greater speed difference causing a sharper turn." << std::endl;
-    } else if ((left_motor_speed > 0 && right_motor_speed < 0) || (left_motor_speed < 0 && right_motor_speed > 0)) {
-        std::cout << "Result: The rover spins" << std::endl;
-    } else if (left_motor_speed == 0 && right_motor_speed == 0) {
-        std::cout << "Result: The rover turns around the left wheel" << std::endl;
-    } else {
-        std::cout << "Result: The rover moves straight or is stopped" << std::endl;
-    }
-
-    std::this_thread::sleep_for(std::chrono::seconds(1000));
-}
-
-// Stops both motors
-void simulate_dead_stop(int timeStop) {
-    int left_motor_speed = 0;
-    int right_motor_speed = 0;
-    std::this_thread::sleep_for(std::chrono::seconds(timeStop));
-}
-
-void main() {
-    std::cout << "Two-Wheeled Rover Turning Simulation" << std::endl;
-    std::cout << "Motor input range is assumed to be -30 (full reverse) to 30 (full forward)" << std::endl;
+    const int left_motor_inputPin1 = 2; // Input control pins for left and right motors
+    const int left_motor_inputPin2 = 3;
+    const int right_motor_inputPin1 = 4;
+    const int right_motor_inputPin2 = 5;
 
     // Motor speed settings
     int stopSpeed = 0;
@@ -48,6 +22,44 @@ void main() {
     int defaultStopTime = 1000;
     int endStopTime = 5000;
     int endOfSimulationTime = 0;
+//
+
+// Function to simulate and display the motor inputs for a turn
+void simulate_turn(const std::string turn_type, int left_motor_speed, int right_motor_speed) {
+    std::this_thread::sleep_for(std::chrono::seconds(defaultStopTime));
+
+    std::cout << "------------------------------------------" << std::endl;
+    std::cout << "Turn type: " << turn_type << std::endl;
+    std::cout << "Left motor input: " << left_motor_speed << std::endl;
+    std::cout << "Right motor input: " << right_motor_speed << std::endl;
+    
+    // Provide a brief explanation of the physical movement
+    if (left_motor_speed > stopSpeed && right_motor_speed > stopSpeed) {
+        std::cout << "Result: The rover moves **forward**, with a greater speed difference causing a sharper turn." << std::endl;
+    } else if (left_motor_speed < stopSpeed && right_motor_speed < stopSpeed) {
+        std::cout << "Result: The rover moves **backward**, with a greater speed difference causing a sharper turn." << std::endl;
+    } else if ((left_motor_speed > stopSpeed && right_motor_speed < stopSpeed) || (left_motor_speed < 0 && right_motor_speed > 0)) {
+        std::cout << "Result: The rover spins" << std::endl;
+    } else if (left_motor_speed == stopSpeed && right_motor_speed == stopSpeed) {
+        std::cout << "Result: The rover turns around the left wheel" << std::endl;
+    } else {
+        std::cout << "Result: The rover moves straight or is stopped" << std::endl;
+    }
+
+    std::this_thread::sleep_for(std::chrono::seconds(defaultStopTime));
+}
+
+// Stops both motors for a specified time
+void simulate_dead_stop(int timeStop) {
+    int left_motor_speed = stopSpeed;
+    int right_motor_speed = stopSpeed;
+    std::this_thread::sleep_for(std::chrono::seconds(timeStop));
+}
+
+// Runs the simulation
+void main() {
+    std::cout << "Two-Wheeled Rover Turning Simulation" << std::endl;
+    std::cout << "Motor input range is assumed to be -30 (full reverse) to 30 (full forward)" << std::endl;
 
     // Straight Movement (Both motors move in the same direction at the same rate) //
     // Straight Forward
