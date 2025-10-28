@@ -3,15 +3,6 @@
 #include <thread>
 
 // Global Variable and Constant Definitions
-    // Motor pin definitions
-    const int left_motor_pin_enable = 9; // PWM enable pins for left and right motors
-    const int right_motor_pin_enable = 10;
-
-    const int left_motor_inputPin1 = 2; // Input control pins for left and right motors
-    const int left_motor_inputPin2 = 3;
-    const int right_motor_inputPin1 = 4;
-    const int right_motor_inputPin2 = 5;
-
     // Motor speed settings
     int stopSpeed = 0;
     int slowSpeed = 5;
