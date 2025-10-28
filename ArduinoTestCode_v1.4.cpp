@@ -93,55 +93,59 @@ void setup() {
     Serial.println("Two-Wheeled Rover Turning Simulation");
     Serial.println("Motor input range is assumed to be -30 (full reverse) to 30 (full forward)");
 
-    // Straight Movement (Both motors move in the same direction at the same rate) //
-    // Straight Forward
-    turn("Forward Straight", normalSpeed, normalSpeed, motor_runTime_2s);
-    // Straight Backward
-    turn("Backward Straight", -normalSpeed, -normalSpeed, motor_runTime_2s);
+    // Straight Movement (Both motors move in the same direction at the same rate)
+        // Straight Forward
+        turn("Forward Straight", normalSpeed, normalSpeed, motor_runTime_2s);
+        // Straight Backward
+        turn("Backward Straight", -normalSpeed, -normalSpeed, motor_runTime_2s);
 
-    // Dead Stop (Both motors are stationary) // (Safety to end test)
-    stop(endStopTime);
+        // Dead Stop (Both motors are stationary) // (Safety to end test)
+        stop(endStopTime);
+    //
     
 
 
-    // Slow Turns/Arcs (One motor is slower than the other) //
-    // Arcs forward right
-    turn("Slow Right Turn (Forward Arc)", normalSpeed, slowSpeed, motor_runTime_2s);
-    // Arcs forward left
-    turn("Slow Left Turn (Forward Arc)", slowSpeed, normalSpeed, motor_runTime_2s);
-    // Arcs backward right
-    turn("Slow Right Turn (Backward Arc)", -normalSpeed, -slowSpeed, motor_runTime_2s);
-    // Arcs backward left
-    turn("Slow Left Turn (Backward Arc)", -slowSpeed, -normalSpeed, motor_runTime_2s);
+    // Slow Turns/Arcs (One motor is slower than the other)
+        // Arcs forward right
+        turn("Slow Right Turn (Forward Arc)", normalSpeed, slowSpeed, motor_runTime_2s);
+        // Arcs forward left
+        turn("Slow Left Turn (Forward Arc)", slowSpeed, normalSpeed, motor_runTime_2s);
+        // Arcs backward right
+        turn("Slow Right Turn (Backward Arc)", -normalSpeed, -slowSpeed, motor_runTime_2s);
+        // Arcs backward left
+        turn("Slow Left Turn (Backward Arc)", -slowSpeed, -normalSpeed, motor_runTime_2s);
     
-    // Dead Stop (Both motors are stationary) // (Safety to end test)
-    stop(endStopTime);
+        // Dead Stop (Both motors are stationary) // (Safety to end test)
+        stop(endStopTime);
+    //
 
 
 
-    // Quick Turns/Arcs (One motor turns quickly, the other doesn't move) //
-    // Left motor turns forward quickly, right motor is stationary
-    turn("Sharp Right Turn (Forward Arc)", fastSpeed, stopSpeed, motor_runTime_2s);
-    // Right motor turns forward quickly, left motor is stationary
-    turn("Sharp Left Turn (Forward Arc)", stopSpeed, fastSpeed, motor_runTime_2s);
-    // Left motor turns backward quickly, right motor is stationary
-    turn("Sharp Right Turn (Reverse Arc)", -fastSpeed, stopSpeed, motor_runTime_2s);
-    // Right motor turns backward quickly, left motor is stationary
-    turn("Sharp Left Turn (Reverse Arc)", stopSpeed, -fastSpeed, motor_runTime_2s);
+    // Quick Turns/Arcs (One motor turns quickly, the other doesn't move)
+        // Left motor turns forward quickly, right motor is stationary
+        turn("Sharp Right Turn (Forward Arc)", fastSpeed, stopSpeed, motor_runTime_2s);
+        // Right motor turns forward quickly, left motor is stationary
+        turn("Sharp Left Turn (Forward Arc)", stopSpeed, fastSpeed, motor_runTime_2s);
+        // Left motor turns backward quickly, right motor is stationary
+        turn("Sharp Right Turn (Reverse Arc)", -fastSpeed, stopSpeed, motor_runTime_2s);
+        // Right motor turns backward quickly, left motor is stationary
+        turn("Sharp Left Turn (Reverse Arc)", stopSpeed, -fastSpeed, motor_runTime_2s);
 
-    // Dead Stop (Both motors are stationary) // (Safety to end test)
-    stop(endStopTime);
+        // Dead Stop (Both motors are stationary) // (Safety to end test)
+        stop(endStopTime);
+    //
 
 
 
-    // Spinning in Place (Motors move in opposite directions at the same rates) //
-    // Spin clockwise (left forward, right backward)
-    turn("Spin Left in Place (Clockwise)", normalSpeed, -normalSpeed, motor_runTime_2s);
-    // Spin counter-clockwise (left backward, right forward)
-    turn("Spin Right in Place (Counter-Clockwise)", -normalSpeed, normalSpeed, motor_runTime_2s);
+    // Spinning in Place (Motors move in opposite directions at the same rates)
+        // Spin clockwise (left forward, right backward)
+        turn("Spin Left in Place (Clockwise)", normalSpeed, -normalSpeed, motor_runTime_2s);
+        // Spin counter-clockwise (left backward, right forward)
+        turn("Spin Right in Place (Counter-Clockwise)", -normalSpeed, normalSpeed, motor_runTime_2s);
 
-    // Dead Stop (Both motors are stationary) // (Safety to end test)
-    stop(endOfSimulationTime);
+        // Dead Stop (Both motors are stationary) // (Safety to end test)
+        stop(endOfSimulationTime);
+    //
 }
 
 // loop() is empty because all logic is currently in setup()
