@@ -48,8 +48,6 @@ void set_motor_speed(int pin_enable, int pin_input1, int pin_input2, int speed) 
 
 // Function to simulate and display the motor inputs for a turn
 void turn(const char* turnType, int leftMotor_speed, int rightMotor_speed, int runTime) {
-    delay(defaultStopTime);
-
     // Provide a brief explanation of the physical movement and motor speeds
     Serial.println("------------------------------------------");
     Serial.print("Turn type: ");
@@ -67,7 +65,7 @@ void turn(const char* turnType, int leftMotor_speed, int rightMotor_speed, int r
     delay(runTime);
 
     // Briefly stops before the next action
-    delay(defaultStopTime);
+    stop(2*defaultStopTime);
 }
 
 // Stops both motors for a specified time
@@ -98,11 +96,8 @@ void setup() {
     // Straight Movement (Both motors move in the same direction at the same rate) //
     // Straight Forward
     turn("Forward Straight", normalSpeed, normalSpeed, motor_runTime_2s);
-    stop(defaultStopTime);
-    
     // Straight Backward
     turn("Backward Straight", -normalSpeed, -normalSpeed, motor_runTime_2s);
-    stop(defaultStopTime);
 
     // Dead Stop (Both motors are stationary) // (Safety to end test)
     stop(endStopTime);
@@ -112,16 +107,12 @@ void setup() {
     // Slow Turns/Arcs (One motor is slower than the other) //
     // Arcs forward right
     turn("Slow Right Turn (Forward Arc)", normalSpeed, slowSpeed, motor_runTime_2s);
-    stop(defaultStopTime);
     // Arcs forward left
     turn("Slow Left Turn (Forward Arc)", slowSpeed, normalSpeed, motor_runTime_2s);
-    stop(defaultStopTime);
     // Arcs backward right
     turn("Slow Right Turn (Backward Arc)", -normalSpeed, -slowSpeed, motor_runTime_2s);
-    stop(defaultStopTime);
     // Arcs backward left
     turn("Slow Left Turn (Backward Arc)", -slowSpeed, -normalSpeed, motor_runTime_2s);
-    stop(defaultStopTime);
     
     // Dead Stop (Both motors are stationary) // (Safety to end test)
     stop(endStopTime);
@@ -131,16 +122,12 @@ void setup() {
     // Quick Turns/Arcs (One motor turns quickly, the other doesn't move) //
     // Left motor turns forward quickly, right motor is stationary
     turn("Sharp Right Turn (Forward Arc)", fastSpeed, stopSpeed, motor_runTime_2s);
-    stop(defaultStopTime);
     // Right motor turns forward quickly, left motor is stationary
     turn("Sharp Left Turn (Forward Arc)", stopSpeed, fastSpeed, motor_runTime_2s);
-    stop(defaultStopTime);
     // Left motor turns backward quickly, right motor is stationary
     turn("Sharp Right Turn (Reverse Arc)", -fastSpeed, stopSpeed, motor_runTime_2s);
-    stop(defaultStopTime);
     // Right motor turns backward quickly, left motor is stationary
     turn("Sharp Left Turn (Reverse Arc)", stopSpeed, -fastSpeed, motor_runTime_2s);
-    stop(defaultStopTime);
 
     // Dead Stop (Both motors are stationary) // (Safety to end test)
     stop(endStopTime);
@@ -150,10 +137,8 @@ void setup() {
     // Spinning in Place (Motors move in opposite directions at the same rates) //
     // Spin clockwise (left forward, right backward)
     turn("Spin Left in Place (Clockwise)", normalSpeed, -normalSpeed, motor_runTime_2s);
-    stop(defaultStopTime);
     // Spin counter-clockwise (left backward, right forward)
     turn("Spin Right in Place (Counter-Clockwise)", -normalSpeed, normalSpeed, motor_runTime_2s);
-    stop(defaultStopTime);
 
     // Dead Stop (Both motors are stationary) // (Safety to end test)
     stop(endOfSimulationTime);
