@@ -4,6 +4,8 @@
 
 // Function to simulate and display the motor inputs for a turn
 void simulate_turn(const std::string turn_type, int left_motor_speed, int right_motor_speed) {
+    std::this_thread::sleep_for(std::chrono::seconds(1000));
+
     std::cout << "------------------------------------------" << std::endl;
     std::cout << "Turn type: " << turn_type << std::endl;
     std::cout << "Left motor input: " << left_motor_speed << std::endl;
@@ -21,91 +23,92 @@ void simulate_turn(const std::string turn_type, int left_motor_speed, int right_
     } else {
         std::cout << "Result: The rover moves straight or is stopped" << std::endl;
     }
+
+    std::this_thread::sleep_for(std::chrono::seconds(1000));
 }
 
-int main() {
+// Stops both motors
+void simulate_dead_stop(int timeStop) {
+    int left_motor_speed = 0;
+    int right_motor_speed = 0;
+    std::this_thread::sleep_for(std::chrono::seconds(timeStop));
+}
+
+void main() {
     std::cout << "Two-Wheeled Rover Turning Simulation" << std::endl;
     std::cout << "Motor input range is assumed to be -30 (full reverse) to 30 (full forward)" << std::endl;
 
+    // Motor speed settings
+    int stopSpeed = 0;
+    int slowSpeed = 5;
+    int normalSpeed = 15;
+    int fastSpeed = 30;
+
+    // Pausing time settings (in milliseconds)
+    int defaultStopTime = 1000;
+    int endStopTime = 5000;
+    int endOfSimulationTime = 0;
+
     // Straight Movement (Both motors move in the same direction at the same rate) //
     // Straight Forward
-    simulate_turn("Forward Straight", 15, 15);
-    simulate_turn("Dead Stop", 0, 0);
-    std::this_thread::sleep_for(std::chrono::seconds(1000));
+    simulate_turn("Forward Straight", normalSpeed, normalSpeed);
+    simulate_dead_stop(defaultStopTime);
+    
     // Straight Backward
-    simulate_turn("Backward Straight", -15, -15);
-    simulate_turn("Dead Stop", 0, 0);
-    std::this_thread::sleep_for(std::chrono::seconds(1000));
+    simulate_turn("Backward Straight", -normalSpeed, -normalSpeed);
+    simulate_dead_stop(defaultStopTime);
 
     // Dead Stop (Both motors are stationary) // (Safety to end test)
-    simulate_turn("Dead Stop", 0, 0);
-    std::this_thread::sleep_for(std::chrono::seconds(5000));
+    simulate_dead_stop(endStopTime);
     
 
 
     // Slow Turns/Arcs (One motor is slower than the other) //
     // Arcs forward right
-    simulate_turn("Slow Right Turn (Forward Arc)", 15, 5);
-    simulate_turn("Dead Stop", 0, 0);
-    std::this_thread::sleep_for(std::chrono::seconds(1000));
+    simulate_turn("Slow Right Turn (Forward Arc)", normalSpeed, slowSpeed);
+    simulate_dead_stop(defaultStopTime);
     // Arcs forward left
-    simulate_turn("Slow Left Turn (Forward Arc)", 5, 15);
-    simulate_turn("Dead Stop", 0, 0);
-    std::this_thread::sleep_for(std::chrono::seconds(1000));
+    simulate_turn("Slow Left Turn (Forward Arc)", slowSpeed, normalSpeed);
+    simulate_dead_stop(defaultStopTime);
     // Arcs backward right
-    simulate_turn("Slow Right Turn (Backward Arc)", -15, -5);
-    simulate_turn("Dead Stop", 0, 0);
-    std::this_thread::sleep_for(std::chrono::seconds(1000));
+    simulate_turn("Slow Right Turn (Backward Arc)", -normalSpeed, -slowSpeed);
+    simulate_dead_stop(defaultStopTime);
     // Arcs backward left
-    simulate_turn("Slow Left Turn (Backward Arc)", -5, -15);
-    simulate_turn("Dead Stop", 0, 0);
-    std::this_thread::sleep_for(std::chrono::seconds(1000));
+    simulate_turn("Slow Left Turn (Backward Arc)", -slowSpeed, -normalSpeed);
+    simulate_dead_stop(defaultStopTime);
     
     // Dead Stop (Both motors are stationary) // (Safety to end test)
-    simulate_turn("Dead Stop", 0, 0);
-    std::this_thread::sleep_for(std::chrono::seconds(5000));
+    simulate_dead_stop(endStopTime);
 
 
 
     // Quick Turns/Arcs (One motor turns quickly, the other doesn't move) //
     // Left motor turns forward quickly, right motor is stationary
-    simulate_turn("Sharp Right Turn (Forward Arc)", 30, 0);
-    simulate_turn("Dead Stop", 0, 0);
-    std::this_thread::sleep_for(std::chrono::seconds(1000));
+    simulate_turn("Sharp Right Turn (Forward Arc)", fastSpeed, stopSpeed);
+    simulate_dead_stop(defaultStopTime);
     // Right motor turns forward quickly, left motor is stationary
-    simulate_turn("Sharp Left Turn (Forward Arc)", 0, 30);
-    simulate_turn("Dead Stop", 0, 0);
-    std::this_thread::sleep_for(std::chrono::seconds(1000));
+    simulate_turn("Sharp Left Turn (Forward Arc)", stopSpeed, fastSpeed);
+    simulate_dead_stop(defaultStopTime);
     // Left motor turns backward quickly, right motor is stationary
-    simulate_turn("Sharp Right Turn (Reverse Arc)", -30, 0);
-    simulate_turn("Dead Stop", 0, 0);
-    std::this_thread::sleep_for(std::chrono::seconds(1000));
+    simulate_turn("Sharp Right Turn (Reverse Arc)", -fastSpeed, stopSpeed);
+    simulate_dead_stop(defaultStopTime);
     // Right motor turns backward quickly, left motor is stationary
-    simulate_turn("Sharp Left Turn (Reverse Arc)", 0, -30);
-    simulate_turn("Dead Stop", 0, 0);
-    std::this_thread::sleep_for(std::chrono::seconds(1000));
+    simulate_turn("Sharp Left Turn (Reverse Arc)", stopSpeed, -fastSpeed);
+    simulate_dead_stop(defaultStopTime);
 
     // Dead Stop (Both motors are stationary) // (Safety to end test)
-    simulate_turn("Dead Stop", 0, 0);
-    std::this_thread::sleep_for(std::chrono::seconds(5000));
+    simulate_dead_stop(endStopTime);
 
 
 
     // Spinning in Place (Motors move in opposite directions at the same rates) //
     // Spin clockwise (left forward, right backward)
-    simulate_turn("Spin Left in Place (Clockwise)", 15, -15);
-    simulate_turn("Dead Stop", 0, 0);
-    std::this_thread::sleep_for(std::chrono::seconds(1000));
+    simulate_turn("Spin Left in Place (Clockwise)", normalSpeed, -normalSpeed);
+    simulate_dead_stop(defaultStopTime);
     // Spin counter-clockwise (left backward, right forward)
-    simulate_turn("Spin Right in Place (Counter-Clockwise)", -15, 15);
-    simulate_turn("Dead Stop", 0, 0);
-    std::this_thread::sleep_for(std::chrono::seconds(1000));
+    simulate_turn("Spin Right in Place (Counter-Clockwise)", -normalSpeed, normalSpeed);
+    simulate_dead_stop(defaultStopTime);
 
     // Dead Stop (Both motors are stationary) // (Safety to end test)
-    simulate_turn("Dead Stop", 0, 0);
-    std::this_thread::sleep_for(std::chrono::seconds(5000));
-
-
-    
-    return 0;
+    simulate_dead_stop(endOfSimulationTime);
 }
