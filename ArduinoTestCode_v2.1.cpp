@@ -15,8 +15,8 @@
         const int rightMotor_pin_input2 = 5;
 
         // RC
-        const int rc_pin_throttle = 6;
-        const int rc_pin_turn = 7;
+        const int rc_pin_throttle = 7; // Channel 1
+        const int rc_pin_turn = 8;     // Channel 2
     //
 
     // Speed and input settings and restrictions
@@ -30,7 +30,7 @@
 
 // Reads the RC's channel values
 int rcChannel_in(int rc_pin) {
-    return pulseIn(rc_pin, HIGH, 25000);
+    return pulseIn(rc_pin, HIGH, 2500);
 }
 
 // Function to set motor speeds and directions based on input values
