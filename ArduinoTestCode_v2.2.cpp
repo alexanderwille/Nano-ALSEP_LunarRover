@@ -1,4 +1,4 @@
-// ArduinoTestCode_v2.0.cpp
+// ArduinoTestCode_v2.2.cpp
 // Attempts remote control of rover
 
 #include <Arduino.h>
@@ -20,17 +20,17 @@
     //
 
     // Speed and input settings and restrictions
-    const int rc_pulse_min = 1000;
-    const int rc_pulse_avg = 1500; 
-    const int rc_pulse_max = 2000;
+    const unsigned long rc_pulse_min = 1000;
+    const unsigned long rc_pulse_avg = 1500; 
+    const unsigned long rc_pulse_max = 2000;
     const int motor_speed_max = 30;
 
     const int rc_deadband = 50;
 //
 
 // Reads the RC's channel values
-int rcChannel_in(int rc_pin) {
-    return pulseIn(rc_pin, HIGH, 2500);
+unsigned long rcChannel_in(int rc_pin) {
+    return pulseIn(rc_pin, HIGH, 25000); // Timer for connection loss is 25 ms
 }
 
 // Function to set motor speeds and directions based on input values
@@ -52,7 +52,7 @@ void set_motor_speed(int pin_enable, int pin_input1, int pin_input2, int speed) 
     analogWrite(pin_enable, pwmValue); // Set the motor speed using PWM
 }
 
-void rc2motor_converter(int throttle_input, int turn_input) {
+void rc2motor_converter(unsigned long throttle_input, unsigned long turn_input) {
     // Checks if either input channel has lost connection (no inputs will return 1500, a lost connection returns 0)
     if ( throttle_input == 0 || turn_input == 0 ) {
         set_motor_speed(leftMotor_pin_enable, leftMotor_pin_input1, leftMotor_pin_input2, 0);
@@ -62,11 +62,25 @@ void rc2motor_converter(int throttle_input, int turn_input) {
     }
 
     // Applies deadband constant (prevents drifting or humming when no turn is set)
-    if ( abs(throttle_input - rc_pulse_avg) < rc_deadband ) {
-        throttle_input = rc_pulse_avg;
+    if ( throttle_input > rc_pulse_avg ) {
+        if ( (throttle_input - rc_pulse_avg) < rc_deadband ) {
+            throttle_input = rc_pulse_avg;
+        }
     }
-    if ( abs(turn_input - rc_pulse_avg) < rc_deadband ) {
-        turn_input = rc_pulse_avg;
+    else {
+        if ( (rc_pulse_avg - throttle_input) < rc_deadband ) {
+            throttle_input = rc_pulse_avg;
+        }
+    }
+    if ( turn_input > rc_pulse_avg ) {
+        if ( (turn_input - rc_pulse_avg) < rc_deadband ) {
+            turn_input = rc_pulse_avg;
+        }
+    }
+    else {
+        if ( (rc_pulse_avg - turn_input) < rc_deadband ) {
+            turn_input = rc_pulse_avg;
+        }
     }
 
     // Normalize RC inputs to motor speed range
@@ -120,8 +134,8 @@ void setup() {
 
 // 
 void loop() {
-    int throttle = rcChannel_in(rc_pin_throttle);
-    int turn = rcChannel_in(rc_pin_turn);
+    unsigned long throttle = rcChannel_in(rc_pin_throttle);
+    unsigned long turn = rcChannel_in(rc_pin_turn);
 
     rc2motor_converter(throttle, turn);
     delay(100);
